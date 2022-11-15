@@ -2,15 +2,6 @@ import os
 import shutil as st
 
 class folder_creation:
-    def __init__(self, source_folder, prefix): # include file_types is we want the user to sort only certain extensions
-        #self.names = file_types
-        if prefix == "":
-            self.prefix = source_folder
-        else:
-            self.prefix = prefix
-        self.source = source_folder
-            
-
     def is_folder_present(self, path):
         return os.path.exists(path)
 
@@ -22,14 +13,15 @@ class folder_creation:
 
 
 class file_moving:
-    def __init__(self, source_folder, prefix): # include file_types is we want the user to sort only certain extensions
+    def __init__(self, source_folder, prefix, dest_folder): # include file_types is we want the user to sort only certain extensions
         #self.names = file_types
         if prefix == "":
             self.prefix = source_folder
         else:
             self.prefix = prefix
-        self.source = source_folder 
-        self.folders = folder_creation(self.source, self.prefix)
+        self.source = source_folder
+        self.dest = dest_folder 
+        self.folders = folder_creation()
 
     def find_extension(self, file_name):
         file, file_extention = os.path.splitext(self.source + '/' + file_name)
@@ -47,7 +39,7 @@ class file_moving:
         #self.folders.create_all_folders()
         for i in self.get_files_from_source():
             ext = self.find_extension(i)
-            new_path = self.source +  '/' + self.prefix + ' ' + ext
+            new_path = self.dest +  '/' + self.prefix + ' ' + ext
             if self.folders.is_folder_present(new_path) is False:
                 self.folders.create_folders(new_path)
             st.move(self.source + '/' + i, new_path)
